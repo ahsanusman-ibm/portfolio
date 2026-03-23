@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF8;--surface:#FFFFFF;--surface2:#F4F3F0;--surface3:#ECEAE5;
+  --border:#E0DDD7;--border2:#D0CCC4;
+  --text:#1A1916;--text2:#4A4741;--text3:#7A7570;
+  --accent:#1C3557;--accent2:#254A78;--accent3:#EBF0F7;
+  --gold:#8B6914;--goldlt:#FDF4E3;--goldbdr:#D4A843;
+  --teal:#0F4A3A;--teallt:#E8F5F1;--tealbdr:#2A8A6E;
+  --plum:#3A1A4E;--plumlt:#F0EAF7;--plumbdr:#7A4AAA;
+  --rose:#5A1828;--roselt:#FBE9EC;--rosebdr:#C4506A;
+  --green:#1A4228;--greenlt:#E8F5EE;
+  --r:6px;--r2:10px;--r3:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;font-size:16px}
+
+/* ── TYPOGRAPHY ── */
+h1,h2,h3,.serif{font-family:'Playfair Display',serif}
+code,.mono{font-family:'JetBrains Mono',monospace}
+.label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text3)}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:900;background:rgba(26,25,22,0.97);backdrop-filter:blur(20px);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,64px);border-bottom:1px solid rgba(255,255,255,0.08)}
+.nav-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:#F5F0E8;text-decoration:none;letter-spacing:0.01em;transition:color 0.2s}
+.nav-name:hover{color:var(--goldbdr)}
+.nav-links{display:flex;gap:clamp(12px,2vw,28px);align-items:center}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,240,232,0.5);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:#F5F0E8}
+.nav-cta{background:var(--accent)!important;color:#F5F0E8!important;padding:7px 16px;border-radius:var(--r)}
+.nav-cta:hover{background:var(--accent2)!important}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hbg span{display:block;width:22px;height:1.5px;background:#F5F0E8;transition:all 0.3s}
+.mob-menu{display:none;position:fixed;top:58px;left:0;right:0;background:rgba(26,25,22,0.99);padding:24px clamp(20px,5vw,64px);flex-direction:column;gap:18px;z-index:800;border-bottom:1px solid rgba(255,255,255,0.08)}
+.mob-menu.open{display:flex}
+.mob-menu a{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(245,240,232,0.6);text-decoration:none;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.mob-menu a:last-child{border-bottom:none}
+
+/* ── HERO ── */
+.hero{min-height:calc(100vh - 58px);display:grid;grid-template-columns:1fr 1fr;background:var(--text)}
+.hero-l{padding:clamp(48px,7vh,96px) clamp(28px,5vw,72px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.hero-l::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#1A1916 0%,#1C2535 50%,#1A2840 100%)}
+.hero-l::after{content:'';position:absolute;bottom:0;right:0;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(28,53,87,0.4) 0%,transparent 70%)}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--goldbdr);position:relative;z-index:1;display:flex;align-items:center;gap:12px}
+.hero-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--goldbdr)}
+.hero-nameblock{position:relative;z-index:1}
+.hero-name{font-family:'Playfair Display',serif;font-size:clamp(52px,6.5vw,92px);font-weight:700;line-height:0.92;color:#F5F0E8;letter-spacing:-0.02em;margin-bottom:14px}
+.hero-name em{font-style:italic;font-weight:400;color:var(--goldbdr)}
+.hero-rule{width:64px;height:2px;background:linear-gradient(90deg,var(--accent),var(--goldbdr));margin-bottom:28px}
+.hero-tagline{font-size:clamp(14px,1.5vw,16.5px);font-weight:300;color:rgba(245,240,232,0.65);line-height:1.85;max-width:400px;padding-left:18px;border-left:2px solid var(--accent2);position:relative;z-index:1}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
+.btn-a{background:var(--goldbdr);color:#1A1916;padding:12px 28px;font-weight:600;font-size:13px;letter-spacing:0.04em;text-decoration:none;border-radius:var(--r);transition:all 0.2s}
+.btn-a:hover{background:#E8B94A;transform:translateY(-1px)}
+.btn-b{border:1px solid rgba(245,240,232,0.2);color:rgba(245,240,232,0.75);padding:12px 28px;font-size:13px;letter-spacing:0.04em;text-decoration:none;border-radius:var(--r);transition:all 0.2s}
+.btn-b:hover{border-color:var(--goldbdr);color:var(--goldbdr)}
+.hero-r{background:var(--accent);padding:clamp(48px,7vh,96px) clamp(28px,5vw,64px);display:flex;flex-direction:column;justify-content:center;gap:32px}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:3px}
+.hstat{background:rgba(255,255,255,0.06);padding:24px 18px;text-align:center;transition:background 0.2s}
+.hstat:hover{background:rgba(255,255,255,0.1)}
+.hstat-v{font-family:'Playfair Display',serif;font-size:38px;font-weight:600;color:#F5F0E8;display:block;line-height:1}
+.hstat-l{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(245,240,232,0.38);display:block;margin-top:5px}
+.hero-targeting{display:flex;flex-direction:column;gap:10px}
+.hero-targeting .label{color:rgba(245,240,232,0.35)}
+.tchips{display:flex;flex-wrap:wrap;gap:6px}
+.tchip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border:1px solid rgba(255,255,255,0.15);color:rgba(245,240,232,0.55);border-radius:var(--r);transition:all 0.2s}
+.tchip:hover{border-color:var(--goldbdr);color:var(--goldbdr)}
+
+/* BAND */
+.band{height:4px;background:linear-gradient(90deg,var(--accent) 0%,var(--goldbdr) 40%,var(--tealbdr) 70%,var(--accent) 100%);background-size:200% 100%;animation:band 6s linear infinite}
+@keyframes band{from{background-position:0 0}to{background-position:200% 0}}
+
+/* ── SECTIONS ── */
+.sec{padding:clamp(60px,8vh,100px) clamp(20px,5vw,72px)}
+.sec-eye{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:8px}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,46px);font-weight:600;line-height:1.1;margin-bottom:48px;color:var(--text)}
+.sec-title em{font-style:italic;font-weight:400;color:var(--accent2)}
+
+/* ── ABOUT ── */
+.sec-about{background:var(--surface)}
+.about-wrap{display:grid;grid-template-columns:1.2fr 0.8fr;gap:clamp(40px,5vw,80px);align-items:start}
+.bio{font-size:clamp(14.5px,1.5vw,16.5px);color:var(--text2);line-height:1.95}
+.bio p{margin-bottom:20px}
+.bio p:last-child{margin-bottom:0}
+.bio strong{color:var(--accent);font-weight:600}
+.xp-card{border-top:1px solid var(--border);padding:16px 0}
+.xp-card:last-child{border-bottom:1px solid var(--border)}
+.xco{font-weight:600;font-size:14px;color:var(--accent);margin-bottom:3px}
+.xrole{font-size:13px;color:var(--text3);font-style:italic;margin-bottom:3px}
+.xdate{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:0.08em}
+.xbadge{display:inline-block;margin-top:8px;background:var(--goldlt);color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.08em;padding:3px 10px;border-radius:var(--r);border:1px solid var(--goldbdr)}
+
+/* ── PROJECTS ── */
+.sec-projects{background:var(--surface2)}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:32px;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);padding:12px 20px;cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;white-space:nowrap;transition:all 0.2s}
+.tab:hover{color:var(--accent)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tab[data-t="bd"].on{color:var(--teal);border-bottom-color:var(--teal)}
+.tab[data-t="ba"].on{color:var(--plum);border-bottom-color:var(--plum)}
+.tab[data-t="mkt"].on{color:var(--rose);border-bottom-color:var(--rose)}
+.panel{display:none}
+.panel.on{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.pc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:24px;transition:box-shadow 0.2s,transform 0.2s}
+.pc:hover{box-shadow:0 8px 32px rgba(26,25,22,0.08);transform:translateY(-2px)}
+.pcid{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.pctitle{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;line-height:1.25;margin-bottom:14px}
+.c .pctitle{color:var(--accent)}.bd .pctitle{color:var(--teal)}.ba .pctitle{color:var(--plum)}.m .pctitle{color:var(--rose)}
+.mets{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:14px;border-radius:var(--r);overflow:hidden}
+.met{padding:10px;text-align:center}
+.c .met{background:var(--accent3)}.bd .met{background:var(--teallt)}.ba .met{background:var(--plumlt)}.m .met{background:var(--roselt)}
+.mv{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;display:block;line-height:1}
+.c .mv{color:var(--accent)}.bd .mv{color:var(--teal)}.ba .mv{color:var(--plum)}.m .mv{color:var(--rose)}
+.ml{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);display:block;margin-top:3px}
+.buls{list-style:none;margin-bottom:14px}
+.buls li{font-size:12.5px;color:var(--text2);line-height:1.65;padding-left:16px;position:relative;margin-bottom:5px}
+.buls li::before{content:'—';position:absolute;left:0;color:var(--border2)}
+.ptags{display:flex;flex-wrap:wrap;gap:5px}
+.ptag{font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 9px;border:1px solid var(--border);color:var(--text3);border-radius:var(--r)}
+
+/* ── EXPERIENCE ── */
+.sec-exp{background:var(--text)}
+.sec-exp .sec-title{color:#F5F0E8}
+.sec-exp .sec-title em{color:var(--goldbdr)}
+.sec-exp .sec-eye{color:rgba(245,240,232,0.35)}
+.tl{position:relative;padding-left:32px}
+.tl::before{content:'';position:absolute;left:7px;top:6px;bottom:0;width:1px;background:rgba(255,255,255,0.1)}
+.ei{position:relative;padding-bottom:40px}
+.ei:last-child{padding-bottom:0}
+.dot{position:absolute;left:-25px;top:5px;width:15px;height:15px;border-radius:50%;border:1.5px solid var(--goldbdr);background:var(--text)}
+.edate{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--goldbdr);margin-bottom:5px}
+.eco{font-size:clamp(15px,1.8vw,17px);font-weight:600;color:#F5F0E8;margin-bottom:3px}
+.erole{font-size:13.5px;color:rgba(245,240,232,0.5);font-style:italic;margin-bottom:12px}
+.ebuls{list-style:none}
+.ebuls li{font-size:13px;color:rgba(245,240,232,0.65);line-height:1.7;padding-left:18px;position:relative;margin-bottom:7px}
+.ebuls li::before{content:'→';position:absolute;left:0;color:var(--goldbdr);font-size:10px;top:3px}
+.ebadge{display:inline-flex;margin-top:10px;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.25);color:var(--goldbdr);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.08em;padding:4px 12px;border-radius:var(--r)}
+
+/* ── SKILLS ── */
+.sec-skills{background:var(--surface3)}
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.skcat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:24px}
+.sktitle{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--accent);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.skchips{display:flex;flex-wrap:wrap;gap:6px}
+.skchip{font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:4px 10px;border:1px solid var(--border2);color:var(--text2);border-radius:var(--r);background:var(--bg)}
+
+/* ── EDUCATION ── */
+.sec-edu{background:var(--surface)}
+.edu-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r3);padding:clamp(28px,4vw,48px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,52px);align-items:start}
+.eduschool{font-family:'Playfair Display',serif;font-size:clamp(20px,2.5vw,26px);font-weight:600;color:var(--accent);margin-bottom:6px;line-height:1.2}
+.edudeg{font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px}
+.edumin{font-size:13.5px;color:var(--text3);font-style:italic;margin-bottom:20px}
+.edu-meta{display:flex;gap:12px;flex-wrap:wrap}
+.edu-mi{text-align:center;background:var(--accent);padding:12px 18px;border-radius:var(--r)}
+.edu-mv{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:#F5F0E8;display:block}
+.edu-ml{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(245,240,232,0.45);display:block;margin-top:2px}
+.edu-flbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;display:block}
+.edu-chips{display:flex;flex-wrap:wrap;gap:6px}
+.edu-chip{font-family:'JetBrains Mono',monospace;font-size:9.5px;padding:4px 10px;background:var(--accent3);color:var(--accent2);border:1px solid rgba(28,53,87,0.15);border-radius:var(--r)}
+
+/* ── CONTACT ── */
+.sec-contact{background:var(--accent);text-align:center}
+.con-eye{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,240,232,0.45);display:block;margin-bottom:16px}
+.con-h{font-family:'Playfair Display',serif;font-size:clamp(26px,3.5vw,46px);font-weight:600;line-height:1.15;color:#F5F0E8;max-width:640px;margin:0 auto 44px}
+.con-h em{font-style:italic;font-weight:400;color:var(--goldbdr)}
+.con-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:56px}
+.cbtn{padding:13px 30px;font-size:14px;font-weight:500;text-decoration:none;letter-spacing:0.03em;display:inline-block;transition:all 0.2s;border-radius:var(--r)}
+.cbtn-li{background:#0A66C2;color:#fff}.cbtn-li:hover{background:#0854A8}
+.cbtn-em{border:1px solid rgba(245,240,232,0.25);color:rgba(245,240,232,0.85)}.cbtn-em:hover{border-color:var(--goldbdr);color:var(--goldbdr)}
+.con-info{border-top:1px solid rgba(255,255,255,0.1);padding-top:40px;display:flex;gap:clamp(24px,3vw,48px);justify-content:center;flex-wrap:wrap}
+.ci{text-align:left}
+.cilbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(245,240,232,0.38);display:block;margin-bottom:4px}
+.cival{font-size:14px;color:rgba(245,240,232,0.85);font-weight:500;text-decoration:none}
+.cival:hover{color:var(--goldbdr)}
+
+/* ── FOOTER ── */
+footer{background:#111009;padding:22px clamp(20px,5vw,72px);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.ft-name{font-family:'Playfair Display',serif;font-size:15px;color:rgba(245,240,232,0.4);text-decoration:none}
+.ft-name:hover{color:var(--goldbdr)}
+.ft-links{display:flex;gap:clamp(12px,2vw,20px);flex-wrap:wrap}
+.ft-links a{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(245,240,232,0.25);text-decoration:none;transition:color 0.2s}
+.ft-links a:hover{color:var(--goldbdr)}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
+.rv.in{opacity:1;transform:translateY(0)}
+.d1{transition-delay:0.1s}.d2{transition-delay:0.2s}.d3{transition-delay:0.3s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hbg{display:flex}
+  .hero{grid-template-columns:1fr}
+  .hero-l{min-height:70vh;clip-path:none!important}
+  .hero-r{padding:clamp(36px,5vh,60px) clamp(20px,5vw,40px)}
+  .about-wrap{grid-template-columns:1fr}
+  .edu-card{grid-template-columns:1fr;gap:28px}
+  .panel.on{grid-template-columns:1fr}
+  .con-info{flex-direction:column;align-items:center;gap:20px}
+  footer{justify-content:center;text-align:center}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .about-wrap{grid-template-columns:1fr 1fr;gap:40px}
+  .panel.on{grid-template-columns:1fr 1fr}
+  .edu-card{gap:32px}
+}
+@media(min-width:1025px){
+  .hero-l{clip-path:polygon(0 0,100% 0,93% 100%,0 100%)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://www.linkedin.com/in/ahsan-usman" target="_blank" class="nav-name">Ahsan Usman</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="mailto:ausman.ibm@gmail.com" class="nav-cta">Contact</a>
+  </div>
+  <button class="hbg" onclick="document.getElementById('mob').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mob-menu" id="mob">
+  <a href="#about" onclick="this.parentElement.classList.remove('open')">About</a>
+  <a href="#projects" onclick="this.parentElement.classList.remove('open')">Projects</a>
+  <a href="#experience" onclick="this.parentElement.classList.remove('open')">Experience</a>
+  <a href="#skills" onclick="this.parentElement.classList.remove('open')">Skills</a>
+  <a href="#education" onclick="this.parentElement.classList.remove('open')">Education</a>
+  <a href="mailto:ausman.ibm@gmail.com" onclick="this.parentElement.classList.remove('open')">Contact</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-l">
+    <div class="hero-eyebrow">Business Analyst · Consulting · Strategy · H1B Candidate</div>
+    <div class="hero-nameblock">
+      <a href="https://www.linkedin.com/in/ahsan-usman" target="_blank" style="text-decoration:none">
+        <div class="hero-name">Ahsan<br><em>Usman</em></div>
+      </a>
+      <div class="hero-rule"></div>
+      <div class="hero-tagline">International Business graduate with a Marketing Minor from Cleveland State University. I translate data into decisions — across consulting, hotel operations, and city government.</div>
+    </div>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-a">View Projects</a>
+      <a href="mailto:ausman.ibm@gmail.com" class="btn-b">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-v">20%</span><span class="hstat-l">Revenue Growth · Marriott</span></div>
+      <div class="hstat"><span class="hstat-v">12</span><span class="hstat-l">Projects · 4 Role Tracks</span></div>
+      <div class="hstat"><span class="hstat-v">4 yrs</span><span class="hstat-l">US Experience · Cleveland</span></div>
+      <div class="hstat"><span class="hstat-v">2</span><span class="hstat-l">Real-World Roles</span></div>
+    </div>
+    <div class="hero-targeting">
+      <span class="label" style="color:rgba(245,240,232,0.35)">Targeting roles at</span>
+      <div class="tchips">
+        <span class="tchip">EY</span><span class="tchip">KPMG</span>
+        <span class="tchip">JPMorgan Chase</span><span class="tchip">Amazon</span>
+        <span class="tchip">Accenture</span><span class="tchip">Deloitte Advisory</span>
+        <span class="tchip">Intuit</span><span class="tchip">Google</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="band"></div>
+
+<!-- ABOUT -->
+<section class="sec sec-about" id="about">
+  <span class="sec-eye">My Story</span>
+  <h2 class="sec-title">One suitcase. <em>Four years.</em></h2>
+  <div class="about-wrap">
+    <div class="bio rv">
+      <p>I grew up in Pakistan. I never imagined I would leave my country to study overseas. Then in 2020, my father made the decision — I was going to the United States for my Bachelor's degree.</p>
+      <p>I was 18. I packed my suitcase, travelled alone for the first time without my family, and flew to a city I had never heard of — <strong>Cleveland, Ohio</strong>. I was the first person in my family to ever move to the US. I didn't know a single person in the States. I didn't have a roadmap. I just knew I was willing to work harder than anyone around me.</p>
+      <p>My first year was spent figuring out the bus routes, where to find Halal food, how to manage money, and how to find a campus job. I faced every challenge that comes with building a life from zero in a foreign country. And I kept going.</p>
+      <p>One summer I returned to Pakistan and landed an internship at the <strong>Islamabad Marriott</strong> — managing a cross-functional team across four departments and watching a framework I designed help deliver <strong>20% revenue growth</strong>. That felt like proof of something.</p>
+      <p>I came back to Cleveland, picked up where I left off, and in 2025 earned a placement inside <strong>City Hall</strong> — the City of Cleveland's Division of Taxation. Most students my age were doing simulations. I was processing real compliance files, coordinating across real city departments, and learning what it actually means to work inside a government institution. That experience stays with me differently than anything I studied in a classroom.</p>
+      <p>I'm not from here. I don't have connections or a network.</p>
+      <p>What I have is the work — and the belief that if I put it in front of the right people, it will speak for itself.</p>
+      <p>I'm looking for a company that sponsors <strong>H1B</strong> and wants someone who will outwork everyone in the room. I want someone to put their trust in me — so I can prove it was worth it.</p>
+    </div>
+    <div class="rv d1">
+      <div class="xp-card"><div class="xco">City of Cleveland — Division of Taxation</div><div class="xrole">Student Assistant · Business Analyst Apprenticeship</div><div class="xdate">Aug 2025 – Dec 2025</div><span class="xbadge">Compliance · Data Governance · Government Ops</span></div>
+      <div class="xp-card"><div class="xco">Islamabad Marriott Hotel</div><div class="xrole">Business Operations Coordinator · Internship</div><div class="xdate">May 2023 – Aug 2023</div><span class="xbadge">20% Revenue Growth · 25% Ops Efficiency</span></div>
+      <div class="xp-card"><div class="xco">Cleveland State University</div><div class="xrole">Student Ambassador</div><div class="xdate">May 2024 – May 2025</div><span class="xbadge">Stakeholder Communication · BD Pipeline</span></div>
+      <div class="xp-card"><div class="xco">Cleveland State University</div><div class="xrole">Student Research Assistant</div><div class="xdate">Aug 2023 – Dec 2023</div><span class="xbadge">Data Collection · Analysis · Reporting</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="sec sec-projects" id="projects">
+  <span class="sec-eye">12 Projects · 4 Role Tracks</span>
+  <h2 class="sec-title">Work that <em>speaks</em> for itself</h2>
+  <div class="tabs">
+    <button class="tab on" data-t="consulting" onclick="swTab('consulting',this)">01 · Consulting</button>
+    <button class="tab" data-t="bd" onclick="swTab('bd',this)">02 · Business Development</button>
+    <button class="tab" data-t="ba" onclick="swTab('ba',this)">03 · Business Analyst</button>
+    <button class="tab" data-t="mkt" onclick="swTab('mkt',this)">04 · Marketing</button>
+  </div>
+
+  <div class="panel on" id="p-consulting">
+    <div class="pc c rv"><div class="pcid">C1 · Consulting</div><div class="pctitle">Digital Transformation Readiness Assessment</div><div class="mets"><div class="met"><span class="mv">47</span><span class="ml">Processes mapped</span></div><div class="met"><span class="mv">$340K</span><span class="ml">Inefficiency identified</span></div><div class="met"><span class="mv">61/100</span><span class="ml">Readiness score</span></div><div class="met"><span class="mv">$180K</span><span class="ml">Solution cost</span></div></div><ul class="buls"><li>Mapped 47 processes via SIPOC, identifying $340K in annual inefficiency across 4 departments</li><li>Built a 6-dimension technology readiness scorecard and modelled 3 ERP scenarios with NPV analysis</li><li>Business law analysis identified 3 vendor obligations requiring renegotiation before implementation</li></ul><div class="ptags"><span class="ptag">SIPOC</span><span class="ptag">NPV</span><span class="ptag">ERP Strategy</span></div></div>
+    <div class="pc c rv d1"><div class="pcid">C2 · Consulting</div><div class="pctitle">Post-Merger Integration — Two Regional Banks</div><div class="mets"><div class="met"><span class="mv">$14.2M</span><span class="ml">Year 1 synergies</span></div><div class="met"><span class="mv">7</span><span class="ml">Overlapping branches</span></div><div class="met"><span class="mv">5</span><span class="ml">Workstreams</span></div><div class="met"><span class="mv">18 mos</span><span class="ml">Integration roadmap</span></div></div><ul class="buls"><li>Modelled $14.2M in Year 1 synergies through combined balance sheet ratio analysis (NIM, ROA, efficiency)</li><li>Identified FDIC and CRA regulatory obligations, plus 3 employment contracts requiring renegotiation</li><li>Designed a 5-workstream 18-month PMI Gantt plan — delivered as a consulting-grade client document</li></ul><div class="ptags"><span class="ptag">Ratio Analysis</span><span class="ptag">Regulatory Compliance</span></div></div>
+    <div class="pc c rv d2"><div class="pcid">C3 · Consulting · City Hall Experience</div><div class="pctitle">Public Sector Cost Reduction Advisory</div><div class="mets"><div class="met"><span class="mv">$2.4M</span><span class="ml">Annual savings</span></div><div class="met"><span class="mv">6</span><span class="ml">Departments analysed</span></div><div class="met"><span class="mv">14%</span><span class="ml">Workforce cost reduction</span></div><div class="met"><span class="mv">3</span><span class="ml">Procurement redesigns</span></div></div><ul class="buls"><li>Grounded in real City Hall apprenticeship — direct operational observation, not desktop research</li><li>Modelled a 14% workforce cost reduction without violating collective bargaining agreements</li><li>Developed a 3-option decision framework tailored for an elected official stakeholder audience</li></ul><div class="ptags"><span class="ptag">City Hall Experience</span><span class="ptag">Procurement</span></div></div>
+  </div>
+
+  <div class="panel" id="p-bd">
+    <div class="pc bd rv"><div class="pcid">BD1 · Business Development</div><div class="pctitle">B2B Market Expansion — EdTech into South Asia</div><div class="mets"><div class="met"><span class="mv">$1.8B</span><span class="ml">SAM sized</span></div><div class="met"><span class="mv">340</span><span class="ml">ICP institutions</span></div><div class="met"><span class="mv">$24K</span><span class="ml">Avg ACV</span></div><div class="met"><span class="mv">$240K</span><span class="ml">Year 1 ARR</span></div></div><ul class="buls"><li>Built TAM/SAM/SOM model: $8.4B → $1.8B → $54M using UNESCO and World Bank data</li><li>Designed a 3-channel GTM strategy: direct enterprise, ministry partnerships, and distributor network</li><li>Modelled pipeline conversion: 340 accounts → 15% → 8% → 3% close = $240K Year 1 ARR</li></ul><div class="ptags"><span class="ptag">TAM/SAM/SOM</span><span class="ptag">GTM Strategy</span></div></div>
+    <div class="pc bd rv d1"><div class="pcid">BD2 · Business Development · Marriott Experience</div><div class="pctitle">Strategic Partnership Framework — Hospitality SaaS</div><div class="mets"><div class="met"><span class="mv">3</span><span class="ml">Partner tiers</span></div><div class="met"><span class="mv">$4.6M</span><span class="ml">Year 2 revenue</span></div><div class="met"><span class="mv">85%</span><span class="ml">Retention target</span></div><div class="met"><span class="mv">3</span><span class="ml">Continents</span></div></div><ul class="buls"><li>Built on first-hand Marriott internship experience — not academic conjecture</li><li>Modelled partner economics using financial management frameworks</li><li>Developed geo-differentiated value propositions across three global markets</li></ul><div class="ptags"><span class="ptag">Marriott Expertise</span><span class="ptag">Partnership Strategy</span></div></div>
+    <div class="pc bd rv d2"><div class="pcid">BD3 · Business Development · City Hall Experience</div><div class="pctitle">Government Sector BD Pipeline — FinTech</div><div class="mets"><div class="met"><span class="mv">47</span><span class="ml">Qualified accounts</span></div><div class="met"><span class="mv">$85K</span><span class="ml">Avg ACV</span></div><div class="met"><span class="mv">90 days</span><span class="ml">To first close</span></div><div class="met"><span class="mv">$170K</span><span class="ml">ARR modelled</span></div></div><ul class="buls"><li>Mapped 7 procurement stages and 3 veto-holder stakeholders through direct City Hall observation</li><li>Designed compliance-first BD messaging grounded in government regulatory frameworks</li><li>Modelled pipeline: 47 accounts → 15% → 8% → 3% close = $170K ARR within 90 days</li></ul><div class="ptags"><span class="ptag">City Hall Experience</span><span class="ptag">Pipeline Design</span></div></div>
+  </div>
+
+  <div class="panel" id="p-ba">
+    <div class="pc ba rv"><div class="pcid">BA1 · Business Analyst</div><div class="pctitle">CRM Requirements Analysis & Vendor Selection</div><div class="mets"><div class="met"><span class="mv">42</span><span class="ml">Requirements documented</span></div><div class="met"><span class="mv">84/100</span><span class="ml">Recommended vendor score</span></div><div class="met"><span class="mv">$22K</span><span class="ml">Projected cost saving</span></div><div class="met"><span class="mv">28%</span><span class="ml">Efficiency gain</span></div></div><ul class="buls"><li>Elicited and prioritised 42 requirements using MoSCoW framework across a 7-dimension weighted matrix</li><li>Recommended HubSpot (84/100) over Salesforce, projecting a $22K cost saving and 40% reduction in manual reporting</li><li>Validated the recommendation through direct hands-on platform experience</li></ul><div class="ptags"><span class="ptag">MoSCoW</span><span class="ptag">CRM Analysis</span></div></div>
+    <div class="pc ba rv d1"><div class="pcid">BA2 · Business Analyst</div><div class="pctitle">E-Commerce Funnel Analysis & Optimisation</div><div class="mets"><div class="met"><span class="mv">34%</span><span class="ml">Cart abandonment rate</span></div><div class="met"><span class="mv">$420K</span><span class="ml">Revenue leak identified</span></div><div class="met"><span class="mv">18%</span><span class="ml">Projected conversion lift</span></div><div class="met"><span class="mv">$280K</span><span class="ml">Revenue impact</span></div></div><ul class="buls"><li>Built a 5-stage funnel model that identified a $420K annual revenue leak at the checkout stage</li><li>Applied consumer behaviour friction analysis to diagnose 3 root causes of cart abandonment</li><li>Designed 3 A/B tests projecting conversion improvements of +8%, +6%, and +4% respectively</li></ul><div class="ptags"><span class="ptag">Funnel Analysis</span><span class="ptag">A/B Testing</span></div></div>
+    <div class="pc ba rv d2"><div class="pcid">BA3 · Business Analyst · City Hall Experience</div><div class="pctitle">Municipal Tax Process Automation Assessment</div><div class="mets"><div class="met"><span class="mv">6</span><span class="ml">Workflows mapped</span></div><div class="met"><span class="mv">$96K</span><span class="ml">Annual manual cost</span></div><div class="met"><span class="mv">6 mos</span><span class="ml">Payback period</span></div><div class="met"><span class="mv">$180K</span><span class="ml">3-year NPV</span></div></div><ul class="buls"><li>Mapped 6 tax workflows using BPMN, identifying 1,200 hours per year and $96K in avoidable labour costs</li><li>Determined that 62% of processes met all 4 RPA eligibility criteria</li><li>Projected: $45K investment → $96K annual saving → 6-month payback and $180K 3-year NPV</li></ul><div class="ptags"><span class="ptag">BPMN</span><span class="ptag">RPA</span><span class="ptag">NPV</span></div></div>
+  </div>
+
+  <div class="panel" id="p-mkt">
+    <div class="pc m rv"><div class="pcid">M1 · Marketing</div><div class="pctitle">Global Brand Repositioning — Luxury Modest Fashion</div><div class="mets"><div class="met"><span class="mv">$62B</span><span class="ml">Market sized</span></div><div class="met"><span class="mv">4</span><span class="ml">Segments profiled</span></div><div class="met"><span class="mv">3</span><span class="ml">Geographic strategies</span></div><div class="met"><span class="mv">18%</span><span class="ml">Projected awareness lift</span></div></div><ul class="buls"><li>Profiled 4 consumer segments, identifying Aspirational Adopters (29%) as the primary growth target</li><li>Applied Hofstede's Cultural Dimensions to develop distinct strategies for the US, UAE, and UK markets</li><li>Benchmarked 5 competitors and identified an unoccupied premium casual positioning opportunity</li></ul><div class="ptags"><span class="ptag">Brand Strategy</span><span class="ptag">Hofstede's</span></div></div>
+    <div class="pc m rv d1"><div class="pcid">M2 · Marketing</div><div class="pctitle">Digital Campaign Analytics & Attribution Model</div><div class="mets"><div class="met"><span class="mv">340%</span><span class="ml">Google overcrediting</span></div><div class="met"><span class="mv">32%</span><span class="ml">CAC reduction</span></div><div class="met"><span class="mv">4.2×</span><span class="ml">ROAS improvement</span></div><div class="met"><span class="mv">$440K</span><span class="ml">Incremental revenue</span></div></div><ul class="buls"><li>Compared last-click and data-driven attribution models, revealing Google was overcredited by 340%</li><li>Identified a $280K reallocation opportunity: email CAC of $8 versus Meta CAC of $67</li><li>Projected $440K in incremental revenue on the same $1.4M budget — with no additional spend</li></ul><div class="ptags"><span class="ptag">Attribution Modelling</span><span class="ptag">CAC Analysis</span></div></div>
+    <div class="pc m rv d2"><div class="pcid">M3 · Marketing · ★ First-person lived expertise</div><div class="pctitle">South Asian Diaspora Consumer Strategy</div><div class="mets"><div class="met"><span class="mv">5.4M</span><span class="ml">Diaspora consumers</span></div><div class="met"><span class="mv">$8.7B</span><span class="ml">Annual spend</span></div><div class="met"><span class="mv">6</span><span class="ml">Cultural triggers mapped</span></div><div class="met"><span class="mv">3</span><span class="ml">GTM channels designed</span></div></div><ul class="buls"><li>The only project in this portfolio grounded in first-person lived experience as a South Asian immigrant</li><li>Segmented the diaspora into 3 generational cohorts using acculturation theory, identifying second-generation bicultural consumers as the highest-value acquisition target</li><li>Designed a 3-channel GTM strategy: micro-influencers, Eid and Diwali capsule collections, and diaspora retail placement across 8 US markets</li></ul><div class="ptags"><span class="ptag">Diaspora Strategy</span><span class="ptag">Lived Expertise</span></div></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="sec sec-exp" id="experience">
+  <span class="sec-eye">Professional Background</span>
+  <h2 class="sec-title">Where I've <em>done the work</em></h2>
+  <div class="tl">
+    <div class="ei rv"><div class="dot"></div><div class="edate">Aug 2025 – Dec 2025</div><div class="eco">City of Cleveland — Division of Taxation</div><div class="erole">Student Assistant · Business Analyst Apprenticeship · Cleveland, OH</div><ul class="ebuls"><li>Reviewed and processed municipal tax filings in a zero-error-tolerance environment, applying structured data verification protocols across high-volume compliance case files</li><li>Coordinated information flow across four city departments, translating regulatory requirements into clear, actionable documentation for non-specialist stakeholders</li><li>Synthesised tax code provisions, business registration requirements, and compliance timelines into structured reference materials used by the Division team</li></ul><span class="ebadge">Government Compliance · Regulatory Analysis · Data Governance</span></div>
+    <div class="ei rv d1"><div class="dot"></div><div class="edate">May 2023 – Aug 2023</div><div class="eco">Islamabad Marriott Hotel</div><div class="erole">Business Operations Coordinator · Internship · Islamabad, Pakistan</div><ul class="ebuls"><li>Designed and deployed a KPI-driven performance framework for a 12-person cross-functional team across four hotel departments, contributing to 20% annual revenue growth and a 25% gain in operational efficiency</li><li>Built a guest satisfaction analytics programme, identified root causes of service gaps, and translated findings into a market expansion strategy that grew market share by 10% and expanded the hotel's footprint by 30%</li><li>Delivered weekly executive performance reports synthesising operational data into decision-ready insights for senior leadership</li></ul><span class="ebadge">20% Revenue Growth · 25% Ops Efficiency · 95% Guest Satisfaction</span></div>
+    <div class="ei rv d2"><div class="dot"></div><div class="edate">May 2024 – May 2025</div><div class="eco">Cleveland State University</div><div class="erole">Student Ambassador · Cleveland, OH</div><ul class="ebuls"><li>Delivered structured presentations to groups of 20–40 prospective students and families, adapting the level of complexity and tone to each audience — a direct parallel to adjusting consulting deliverables for executive versus operational stakeholders</li><li>Represented CSU at 15+ recruitment events and collaborated with Admissions and Marketing teams to support enrolment targets</li></ul></div>
+    <div class="ei rv d3"><div class="dot"></div><div class="edate">Aug 2023 – Dec 2023</div><div class="eco">Cleveland State University</div><div class="erole">Student Research Assistant · Cleveland, OH</div><ul class="ebuls"><li>Supported faculty research through structured data collection, synthesis, and analytical reporting, developing research methodology directly applicable to business intelligence roles</li></ul></div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="sec sec-skills" id="skills">
+  <span class="sec-eye">Capabilities</span>
+  <h2 class="sec-title">Tools, frameworks, <em>and languages</em></h2>
+  <div class="sk-grid">
+    <div class="skcat rv"><div class="sktitle">Tools & Software</div><div class="skchips"><span class="skchip">Excel</span><span class="skchip">SharePoint</span><span class="skchip">Outlook</span><span class="skchip">Google Analytics</span><span class="skchip">AI Studio</span><span class="skchip">Gemini</span><span class="skchip">Google Colab</span><span class="skchip">Notebook LM</span><span class="skchip">Adobe Suite</span><span class="skchip">Power BI</span><span class="skchip">HubSpot</span><span class="skchip">Jira</span><span class="skchip">Slack</span></div></div>
+    <div class="skcat rv d1"><div class="sktitle">Analytical Frameworks</div><div class="skchips"><span class="skchip">SIPOC</span><span class="skchip">MoSCoW</span><span class="skchip">BPMN</span><span class="skchip">TAM/SAM/SOM</span><span class="skchip">Porter's Five Forces</span><span class="skchip">PESTLE</span><span class="skchip">Hofstede's Dimensions</span><span class="skchip">NPV / IRR</span><span class="skchip">Ratio Analysis</span><span class="skchip">Scenario Modelling</span><span class="skchip">ICP Development</span></div></div>
+    <div class="skcat rv d2"><div class="sktitle">Business Skills</div><div class="skchips"><span class="skchip">Financial Analysis</span><span class="skchip">Requirements Elicitation</span><span class="skchip">Stakeholder Management</span><span class="skchip">Market Research</span><span class="skchip">GTM Strategy</span><span class="skchip">Process Improvement</span><span class="skchip">Trade Policy Analysis</span><span class="skchip">Regulatory Compliance</span><span class="skchip">Cross-functional Leadership</span><span class="skchip">Executive Reporting</span></div></div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="sec sec-edu" id="education">
+  <span class="sec-eye">Academic Foundation</span>
+  <h2 class="sec-title">Where it all <em>started</em></h2>
+  <div class="edu-card rv">
+    <div>
+      <div class="eduschool">Cleveland State University<br>Monte Ahuja College of Business</div>
+      <div class="edudeg">B.S. International Business</div>
+      <div class="edumin">Minor: Marketing</div>
+      <div class="edu-meta">
+        <div class="edu-mi"><span class="edu-mv">May</span><span class="edu-ml">2026 Graduation</span></div>
+        <div class="edu-mi"><span class="edu-mv">IB</span><span class="edu-ml">Major</span></div>
+        <div class="edu-mi"><span class="edu-mv">MKTG</span><span class="edu-ml">Minor</span></div>
+      </div>
+    </div>
+    <div>
+      <span class="edu-flbl">Areas of focus</span>
+      <div class="edu-chips">
+        <span class="edu-chip">Financial Management</span><span class="edu-chip">Business Law & Ethics</span>
+        <span class="edu-chip">International Accounting</span><span class="edu-chip">Global Marketing Strategy</span>
+        <span class="edu-chip">International Operations</span><span class="edu-chip">Consumer Behavior</span>
+        <span class="edu-chip">International Trade</span><span class="edu-chip">Labor & Industrial Relations</span>
+        <span class="edu-chip">Business Analytics</span><span class="edu-chip">Organizational Behavior</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec sec-contact" id="contact">
+  <span class="con-eye">Let's Connect</span>
+  <h2 class="con-h">Open to Business Analyst, Strategy Analyst, and Marketing Analyst roles at companies that <em>sponsor H1B.</em></h2>
+  <div class="con-btns">
+    <a href="https://www.linkedin.com/in/ahsan-usman" target="_blank" class="cbtn cbtn-li">Connect on LinkedIn →</a>
+    <a href="mailto:ausman.ibm@gmail.com" class="cbtn cbtn-em">Email Me →</a>
+  </div>
+  <div class="con-info">
+    <div class="ci"><span class="cilbl">Location</span><span class="cival">Cleveland, Ohio · Open to relocation</span></div>
+    <div class="ci"><span class="cilbl">Email</span><a href="mailto:ausman.ibm@gmail.com" class="cival">ausman.ibm@gmail.com</a></div>
+    <div class="ci"><span class="cilbl">LinkedIn</span><a href="https://www.linkedin.com/in/ahsan-usman" target="_blank" class="cival">linkedin.com/in/ahsan-usman</a></div>
+    <div class="ci"><span class="cilbl">Visa Status</span><span class="cival">F-1 OPT · H1B Sponsorship Required</span></div>
+    <div class="ci"><span class="cilbl">Target Roles</span><span class="cival">BA · Strategy Analyst · Advisory · Marketing Analyst</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="https://www.linkedin.com/in/ahsan-usman" target="_blank" class="ft-name">Ahsan Usman · 2026</a>
+  <div class="ft-links">
+    <a href="#about">About</a><a href="#projects">Projects</a>
+    <a href="#experience">Experience</a><a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="https://www.linkedin.com/in/ahsan-usman" target="_blank">LinkedIn</a>
+    <a href="mailto:ausman.ibm@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+function swTab(id,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  btn.classList.add('on');
+  const panel=document.getElementById('p-'+id);
+  panel.classList.add('on');
+  setTimeout(()=>panel.querySelectorAll('.rv').forEach(el=>el.classList.add('in')),60);
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+},{threshold:0.06,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();document.getElementById('mob').classList.remove('open');t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+</body>
+</html>
